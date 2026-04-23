@@ -288,14 +288,12 @@ forestplot(
 )
 
 # Add figure footnote
-footnote_text <- paste(
-  "Note: Educational attainment was dichotomized as without a bachelor's degree",
-  "(including high school, GED, and current undergraduate education)\n",
-  "versus bachelor's degree or higher (including postgraduate education).\n",
-  "Absolute differences are presented as AI minus Control in percentage points.\n",
-  "Crude subgroup-specific proportions are shown for descriptive reference and",
-  "may differ from the model-based marginal estimates."
+footnote_text <- paste0(
+  "Note: Educational attainment was dichotomized as bachelor’s degree or higher versus below bachelor’s degree/current undergraduate.\n",
+  "Absolute differences are presented as AI minus Control in percentage points. Crude subgroup-specific proportions are shown\n",
+  "for descriptive reference and may differ from the model-based marginal estimates."
 )
+
 
 grid.text(
   footnote_text,
