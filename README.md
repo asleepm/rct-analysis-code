@@ -6,9 +6,6 @@ This repository contains the statistical analysis code, de-identified analysis i
 
 ## Public release
 
-- **Public repository release:** https://github.com/asleepm/rct-analysis-code/releases/tag/v1.0
-- **Archived citable release (Zenodo DOI):** https://doi.org/10.5281/zenodo.19647972
-
 This repository is public at the time of manuscript resubmission.
 
 ## What this repository is for
