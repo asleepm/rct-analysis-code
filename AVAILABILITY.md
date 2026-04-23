@@ -2,11 +2,6 @@
 
 ## Public release
 
-The statistical analysis code and public non-proprietary supplementary materials supporting this study are publicly available at:
-
-- **Public repository release:** <GitHub release URL>
-- **Archived citable release (Zenodo DOI):** <Zenodo DOI URL>
-
 This repository is public at the time of manuscript resubmission.
 
 ## What is publicly provided in this repository
