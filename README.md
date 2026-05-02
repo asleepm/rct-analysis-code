@@ -2,7 +2,7 @@
 
 This repository contains the statistical analysis code, de-identified analysis input files, and public non-proprietary supplementary materials used to support the manuscript:
 
-**“AI-assisted layperson case-based respiratory assessment in China: a multicenter randomized controlled trial”**
+**“LungDiag-GPT4o system for layperson respiratory diagnosis and triage in China: a multicenter randomized controlled trial”**
 
 ## Public release
 
