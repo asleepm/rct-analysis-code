@@ -302,7 +302,7 @@ forestplot(
 
 # Add figure footnote
 footnote_text <- paste0(
-  "Note: Educational attainment was dichotomized as bachelor’s degree or higher versus below bachelor’s degree/current undergraduate.\n",
+  "Note: ",
   "Absolute differences are presented as LungDiag-GPT4o minus Control in percentage points. Crude subgroup-specific proportions are shown\n",
   "for descriptive reference and may differ from the model-based marginal estimates."
 )
