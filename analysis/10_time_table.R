@@ -15,7 +15,7 @@ library(tidyr)
 library(officer)
 
 # Read source datasets
-data1 <- read_excel("data/AI.xlsx") %>% mutate(Group = "AI Group")
+data1 <- read_excel("data/LungDiag-GPT4o.xlsx") %>% mutate(Group = "AI Group")
 data2 <- read_excel("data/Control.xlsx") %>% mutate(Group = "Control Group")
 data_all <- bind_rows(data1, data2)
 
@@ -62,7 +62,7 @@ ft <- flextable(table_data)
 ft <- set_header_labels(
   ft,
   Variable = "",
-  `AI Group` = "AI Group",
+  `AI Group` = "LungDiag-GPT4o Group",
   `Control Group` = "Control Group",
   `P-value` = "P-value"
 )
@@ -76,13 +76,13 @@ ft <- align(ft, align = "center", part = "all")
 doc <- read_docx()
 doc <- body_add_par(
   doc,
-  value = "Table 3: Median Task Completion Times and Interquartile Ranges (IQR) Between the AI-Assisted Group and Control Group, with Statistical Comparison",
+  value = "Table 3: Median Task Completion Times and Interquartile Ranges (IQR) Between the LungDiag-GPT4o Group and Control Group, with Statistical Comparison",
   style = "Normal"
 )
 doc <- body_add_flextable(doc, value = ft)
 doc <- body_add_par(
   doc,
-  value = "Note: Completion time is presented as median and interquartile range (IQR) in seconds because the distribution was non-normal. Between-group comparisons were performed using a two-sided Wilcoxon rank-sum test. Shapiro–Wilk tests were used to assess normality and are not shown in the table. Analyses were based on observed completion-time data from the AI and Control groups.",
+  value = "Note: Completion time is presented as median and interquartile range (IQR) in seconds because the distribution was non-normal. Between-group comparisons were performed using a two-sided Wilcoxon rank-sum test. Shapiro–Wilk tests were used to assess normality and are not shown in the table. Analyses were based on observed completion-time data from the LungDiag-GPT4o and Control groups.",
   style = "Normal"
 )
 

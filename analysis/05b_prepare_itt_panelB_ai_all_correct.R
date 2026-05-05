@@ -1,4 +1,4 @@
-# This script prepares the AI-arm ITT dataset for Panel B analysis by
+# This script prepares the Lungdiga-GPT4o-arm ITT dataset for Panel B analysis by
 # imputing baseline variables and recoding selected unanswered questionnaire items as correct.
 
 # Load required packages
@@ -11,7 +11,7 @@ library(writexl)
 # Step 1: Read the source dataset
 # ==========================================
 # Keep character content as imported from Excel and handle missing values explicitly.
-file_path <- "data/ai_corrected.xlsx"
+file_path <- "data/LungDiag-GPT4o_corrected.xlsx"
 df <- read_excel(file_path, na = "")
 
 # ==========================================
@@ -61,7 +61,7 @@ df_outcomes[df_outcomes == "NA"] <- "对"
 df_final <- bind_cols(ID = df[[1]], df_baseline_imputed, df_outcomes)
 
 # Export the processed dataset to a new Excel file
-output_name <- "data/ai_itt_panelB_na_as_correct.xlsx"
+output_name <- "data/LungDiag-GPT4o_itt_panelB_na_as_correct.xlsx"
 write_xlsx(df_final, output_name)
 
 print(paste("Processing completed. Output file saved as:", output_name))

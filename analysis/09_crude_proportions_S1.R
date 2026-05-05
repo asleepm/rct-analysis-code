@@ -7,7 +7,7 @@ library(flextable)
 library(officer)
 
 # Read source datasets
-data1 <- read_excel("data/AI.xlsx")
+data1 <- read_excel("data/LungDiag-GPT4o.xlsx")
 data2 <- read_excel("data/Control.xlsx")
 
 # Define column ranges
@@ -209,7 +209,7 @@ ft <- set_header_labels(
 
 ft <- add_header_row(
   ft,
-  values = c("", "AI Group", "", "Control Group", "", "Comparison", "", ""),
+  values = c("", "LungDiag-GPT4o Group", "", "Control Group", "", "Comparison", "", ""),
   top = TRUE
 )
 ft <- merge_h(ft, part = "header")
@@ -229,7 +229,7 @@ doc <- body_add_par(
 doc <- body_add_flextable(doc, value = ft)
 doc <- body_add_par(
   doc,
-  value = "Note: Values are crude pooled item-level proportions calculated directly from observed responses, with Wilson 95% confidence intervals. Accuracy differences were calculated as crude between-group differences (AI minus Control), and P values were derived from chi-square tests without continuity correction. Blank cells indicate unasked items and were excluded from the denominator. These crude proportions are provided for descriptive comparison and may differ from the model-based marginal accuracies estimated from the GLMM in the primary and sensitivity analyses.",
+  value = "Note: Values are crude pooled item-level proportions calculated directly from observed responses, with Wilson 95% confidence intervals. Accuracy differences were calculated as crude between-group differences (LungDiag-GPT4o minus Control), and P values were derived from chi-square tests without continuity correction. Blank cells indicate unasked items and were excluded from the denominator. These crude proportions are provided for descriptive comparison and may differ from the model-based marginal accuracies estimated from the GLMM in the primary and sensitivity analyses.",
   style = "Normal"
 )
 

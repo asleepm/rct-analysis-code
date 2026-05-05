@@ -13,7 +13,7 @@ library(Cairo)
 # ==============================
 # 1. Read source datasets
 # ==============================
-data_ai  <- read_excel("data/AI.xlsx")
+data_ai  <- read_excel("data/LungDiag-GPT4o.xlsx")
 data_ctl <- read_excel("data/Control.xlsx")
 
 # ==============================
@@ -55,12 +55,12 @@ calc_set <- function(dat) {
   )
 }
 
-ai_tbl  <- calc_set(data_ai)  %>% mutate(Group = "AI")
+ai_tbl  <- calc_set(data_ai)  %>% mutate(Group = "LungDiag-GPT4o")
 ctl_tbl <- calc_set(data_ctl) %>% mutate(Group = "Control")
 
 plot_df <- bind_rows(ai_tbl, ctl_tbl) %>%
   mutate(
-    Group = factor(Group, levels = c("AI", "Control")),
+    Group = factor(Group, levels = c("LungDiag-GPT4o", "Control")),
     Type  = factor(Type, levels = c("Overall", "Risk Behaviour", "Diagnostic", "Triage"))
   )
 
@@ -88,8 +88,8 @@ p <- ggplot(plot_df, aes(x = Type, y = Accuracy, fill = Group)) +
     fontface = "bold"
   ) +
   scale_fill_manual(
-    breaks = c("AI", "Control"),
-    values = c("AI" = "#1f77b4", "Control" = "darkorange")
+    breaks = c("LungDiag-GPT4o", "Control"),
+    values = c("LungDiag-GPT4o" = "#1f77b4", "Control" = "darkorange")
   ) +
   scale_y_continuous(
     labels = scales::percent_format(accuracy = 1),

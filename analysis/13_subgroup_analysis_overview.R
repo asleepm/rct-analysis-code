@@ -67,7 +67,7 @@ make_plot_df <- function(model, subgroup_var, var_label,
 # ==========================================================
 # 1. Sex subgroup
 # ==========================================================
-exp_data  <- read_excel("data/AI.xlsx")      |> mutate(ID = paste0("Exp_", ID), Group = "Experimental")
+exp_data  <- read_excel("data/LungDiag-GPT4o.xlsx")      |> mutate(ID = paste0("Exp_", ID), Group = "Experimental")
 ctrl_data <- read_excel("data/Control.xlsx") |> mutate(ID = paste0("Ctrl_", ID), Group = "Control")
 data_combined <- bind_rows(exp_data, ctrl_data)
 
@@ -222,48 +222,61 @@ plot_df_region <- make_plot_df(
   mutate(group = "Region")
 
 # ==========================================================
+# ==========================================================
 # 5. Combine results and create the forest plot
 # ==========================================================
-plot_df_all <- bind_rows(
-  plot_df_sex, plot_df_age, plot_df_edu, plot_df_region
-) |>
-  mutate(indent_label = paste0("   ", subgroup))
+library(car) # Required for Anova()
 
-group_headers <- plot_df_all |>
-  distinct(group) |>
-  mutate(
-    indent_label = group,
-    subgroup = NA_character_,
-    group1 = NA_character_,
-    group2 = NA_character_,
-    mean = NA_real_,
-    lower = NA_real_,
-    upper = NA_real_
-  )
+# Helper function to extract P for interaction
+get_p_int <- function(model, term) {
+  Anova(model, type = "III")[term, "Pr(>Chisq)"]
+}
 
-plot_df_final <- bind_rows(group_headers, plot_df_all) |>
-  arrange(factor(group, levels = c("Sex", "Age Group", "Education", "Region")))
-
-tabletext <- cbind(
-  c("Subgroup", plot_df_final$indent_label),
-  c("AI", plot_df_final$group1),
-  c("Control", plot_df_final$group2),
-  c(
-    "AI - Control Diff (95% CI)",
-    ifelse(
-      is.na(plot_df_final$mean), "",
-      sprintf(
-        "%.1f (%.1f to %.1f)",
-        plot_df_final$mean * 100,
-        plot_df_final$lower * 100,
-        plot_df_final$upper * 100
-      )
-    )
+# 5.1 Extract P values for each subgroup
+p_int_df <- tibble(
+  group = c("Sex", "Age Group", "Education", "Region"),
+  p_interaction = c(
+    get_p_int(model_sex, "Sex:Group"),
+    get_p_int(model_age, "AgeGroup:Group"),
+    get_p_int(model_edu, "EduGroup2:Group"),
+    get_p_int(model_region, "Territory:Group")
   )
 )
 
-CairoPDF("Figure4.pdf",
-         width = 13, height = 8.2, family = "Times New Roman")
+# 5.2 Combine data and indent sub-labels
+plot_df_all <- bind_rows(plot_df_sex, plot_df_age, plot_df_edu, plot_df_region) |>
+  mutate(indent_label = paste0("   ", subgroup))
+
+# 5.3 Create group headers and merge P values
+group_headers <- plot_df_all |>
+  distinct(group) |>
+  mutate(indent_label = group) |>
+  left_join(p_int_df, by = "group") |>
+  mutate(
+    p_text = case_when(
+      p_interaction < 0.001 ~ "<0.001",
+      TRUE ~ sprintf("%.3f", p_interaction)
+    )
+  )
+
+# 5.4 Build final dataset
+plot_df_final <- bind_rows(group_headers, plot_df_all) |>
+  arrange(factor(group, levels = c("Sex", "Age Group", "Education", "Region"))) |>
+  mutate(p_text = replace_na(p_text, "")) # Keep P value empty for sub-rows
+
+# 5.5 Construct the text matrix for plotting
+tabletext <- cbind(
+  c("Subgroup", plot_df_final$indent_label),
+  c("LungDiag-GPT4o", replace_na(plot_df_final$group1, "")),
+  c("Control", replace_na(plot_df_final$group2, "")),
+  c("Diff (95% CI)", ifelse(is.na(plot_df_final$mean), "",
+                            sprintf("%.1f (%.1f to %.1f)", 
+                                    plot_df_final$mean * 100, plot_df_final$lower * 100, plot_df_final$upper * 100))),
+  c("P for interaction", plot_df_final$p_text) # New column added here
+)
+
+# 5.6 Render plot (Width increased to 14.5 to fit the new column)
+CairoPDF("Figure4.pdf", width = 14.5, height = 8.2, family = "Times New Roman")
 
 forestplot(
   labeltext = tabletext,
@@ -275,30 +288,29 @@ forestplot(
   boxsize   = 0.2,
   col       = fpColors(box = "black", line = "black", summary = "black"),
   xticks    = seq(-10, 30, 10),
-  xlab      = "Absolute Difference (AI - Control, percentage points)",
-  graph.pos = 5,
+  xlab      = "Absolute Difference (LungDiag-GPT4o - Control, percentage points)",
+  graph.pos = 5, # Plot will be placed between CI and P value columns
   txt_gp    = fpTxtGp(
-    label = gpar(fontfamily = "Times New Roman", fontface = "plain", fontsize = 9),
+    label = gpar(fontfamily = "Times New Roman", fontsize = 9),
     xlab  = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 10),
     title = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 12)
   ),
-  title     = "Subgroup Analysis: AI vs Control",
-  new_page  = FALSE,
-  colgap    = unit(8, "mm")
+  title     = "Subgroup Analysis: LungDiag-GPT4o vs Control",
+  colgap    = unit(8, "mm"),
+  newpage   = FALSE
 )
 
 # Add figure footnote
 footnote_text <- paste0(
   "Note: Educational attainment was dichotomized as bachelor’s degree or higher versus below bachelor’s degree/current undergraduate.\n",
-  "Absolute differences are presented as AI minus Control in percentage points. Crude subgroup-specific proportions are shown\n",
+  "Absolute differences are presented as LungDiag-GPT4o minus Control in percentage points. Crude subgroup-specific proportions are shown\n",
   "for descriptive reference and may differ from the model-based marginal estimates."
 )
-
 
 grid.text(
   footnote_text,
   x = unit(0.02, "npc"),
-  y = unit(0.015, "npc"),
+  y = unit(0.03, "npc"),
   just = c("left", "bottom"),
   gp = gpar(fontfamily = "Times New Roman", fontsize = 7.5, col = "#555555")
 )
