@@ -96,10 +96,10 @@ var_descriptions <- c(
 )
 
 # ----------- Step 1: Read Data and Add Group Labels ------------
-if (!file.exists("data/LungDiag-GPT4o.xlsx")) stop("File not found: data/LungDiag-GPT4o.xlsx")
+if (!file.exists("data/LungDiag.xlsx")) stop("File not found: data/LungDiag.xlsx")
 if (!file.exists("data/Control.xlsx")) stop("File not found: data/Control.xlsx")
 
-data1 <- read_excel("data/LungDiag-GPT4o.xlsx") %>% dplyr::select(1:19)
+data1 <- read_excel("data/LungDiag.xlsx") %>% dplyr::select(1:19)
 data2 <- read_excel("data/Control.xlsx") %>% dplyr::select(1:19)
 
 data1$group <- "AI Group"
@@ -290,7 +290,7 @@ ft <- flextable(baseline_table) %>%
   set_header_labels(
     Variable = "Variable",
     `Category/Statistic` = "Category/Statistic",
-    `AI Group` = "LungDiag-GPT4o Group",
+    `AI Group` = "LungDiag Group",
     `Control Group` = "Control Group",
     SMD = "SMD"
   ) %>%

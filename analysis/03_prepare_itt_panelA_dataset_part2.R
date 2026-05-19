@@ -1,4 +1,4 @@
-# This script prepares the Lungdiga-GPT4o-arm ITT dataset for Panel A analysis by
+# This script prepares the Lungdiga-arm ITT dataset for Panel A analysis by
 # imputing baseline variables and recoding selected unanswered questionnaire items.
 
 # Load required packages
@@ -13,7 +13,7 @@ library(writexl)
 # Using na = "" ensures that only truly blank cells are treated as missing values (NA).
 # Text entries such as "NA" in the spreadsheet are imported as character strings and
 # can therefore be distinguished from actual empty cells.
-file_path <- "data/LungDiag-GPT4o_corrected.xlsx"
+file_path <- "data/LungDiag_corrected.xlsx"
 df <- read_excel(file_path, na = "")
 
 # ==========================================
@@ -63,7 +63,7 @@ df_outcomes[df_outcomes == "NA"] <- "错"
 df_final <- bind_cols(ID = df[[1]], df_baseline_imputed, df_outcomes)
 
 # Export the processed dataset to a new Excel file
-output_name <- "data/LungDiag-GPT4o_itt_imputed_na_as_incorrect.xlsx"
+output_name <- "data/LungDiag_itt_imputed_na_as_incorrect.xlsx"
 write_xlsx(df_final, output_name)
 
 print(paste("Processing completed. Output file saved as:", output_name))

@@ -12,7 +12,7 @@ library(flextable)
 library(officer)
 
 # 2. Read datasets and assign study arm and participant IDs
-data1 <- read_excel("data/LungDiag-GPT4o_itt_panelB_na_as_correct.xlsx")
+data1 <- read_excel("data/LungDiag_itt_panelB_na_as_correct.xlsx")
 data2 <- read_excel("data/control_itt_panelB_na_as_correct.xlsx")
 
 data1$group <- "AI"
@@ -182,7 +182,7 @@ ft <- set_header_labels(
 # Add a grouped header row
 ft <- add_header_row(
   ft,
-  values = c("", "LungDiag-GPT4o Group", "", "Control Group", "", "Comparison", "", "", "", ""),
+  values = c("", "LungDiag Group", "", "Control Group", "", "Comparison", "", "", "", ""),
   top = TRUE
 )
 ft <- merge_h(ft, part = "header")

@@ -67,7 +67,7 @@ make_plot_df <- function(model, subgroup_var, var_label,
 # ==========================================================
 # 1. Sex subgroup
 # ==========================================================
-exp_data  <- read_excel("data/LungDiag-GPT4o.xlsx")      |> mutate(ID = paste0("Exp_", ID), Group = "Experimental")
+exp_data  <- read_excel("data/LungDiag.xlsx")      |> mutate(ID = paste0("Exp_", ID), Group = "Experimental")
 ctrl_data <- read_excel("data/Control.xlsx") |> mutate(ID = paste0("Ctrl_", ID), Group = "Control")
 data_combined <- bind_rows(exp_data, ctrl_data)
 
@@ -267,7 +267,7 @@ plot_df_final <- bind_rows(group_headers, plot_df_all) |>
 # 5.5 Construct the text matrix for plotting
 tabletext <- cbind(
   c("Subgroup", plot_df_final$indent_label),
-  c("LungDiag-GPT4o", replace_na(plot_df_final$group1, "")),
+  c("LungDiag", replace_na(plot_df_final$group1, "")),
   c("Control", replace_na(plot_df_final$group2, "")),
   c("Diff (95% CI)", ifelse(is.na(plot_df_final$mean), "",
                             sprintf("%.1f (%.1f to %.1f)", 
@@ -288,14 +288,14 @@ forestplot(
   boxsize   = 0.2,
   col       = fpColors(box = "black", line = "black", summary = "black"),
   xticks    = seq(-10, 30, 10),
-  xlab      = "Absolute Difference (LungDiag-GPT4o - Control, percentage points)",
+  xlab      = "Absolute Difference (LungDiag - Control, percentage points)",
   graph.pos = 5, # Plot will be placed between CI and P value columns
   txt_gp    = fpTxtGp(
     label = gpar(fontfamily = "Times New Roman", fontsize = 9),
     xlab  = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 10),
     title = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 12)
   ),
-  title     = "Subgroup Analysis: LungDiag-GPT4o vs Control",
+  title     = "Subgroup Analysis: LungDiag vs Control",
   colgap    = unit(8, "mm"),
   newpage   = FALSE
 )
@@ -303,7 +303,7 @@ forestplot(
 # Add figure footnote
 footnote_text <- paste0(
   "Note: ",
-  "Absolute differences are presented as LungDiag-GPT4o minus Control in percentage points. Crude subgroup-specific proportions are shown\n",
+  "Absolute differences are presented as LungDiag minus Control in percentage points. Crude subgroup-specific proportions are shown\n",
   "for descriptive reference and may differ from the model-based marginal estimates."
 )
 
