@@ -45,23 +45,23 @@ Baseline table scripts use columns 1–19 and include variables such as:
 
 ## Primary compliant-case input files
 The primary compliant-case analyses use:
-- `data/AI.xlsx`
+- `data/LungDiag.xlsx`
 - `data/Control.xlsx`
 
 ## ITT deterministic boundary-analysis raw recoding inputs
 The deterministic ITT boundary analyses begin from:
-- `data/ai_corrected.xlsx`
+- `data/LungDiag_corrected.xlsx`
 - `data/control_corrected.xlsx`
 
 ## Supplementary Table S2: deterministic ITT boundary-analysis datasets
 Supplementary Table S2 comprises three predefined deterministic boundary scenarios for assigned-but-unanswered questionnaire items.
 
 ### Panel A
-- AI assigned-but-unanswered items coded as incorrect
+- LungDiag assigned-but-unanswered items coded as incorrect
 - Control assigned-but-unanswered items coded as correct
 
 Derived input files:
-- `data/ai_itt_imputed_na_as_incorrect.xlsx`
+- `data/LungDiag_itt_imputed_na_as_incorrect.xlsx`
 - `data/control_itt_imputed_na_as_correct.xlsx`
 
 Output file:
@@ -71,7 +71,7 @@ Output file:
 - All assigned-but-unanswered items coded as correct in both arms
 
 Derived input files:
-- `data/ai_itt_panelB_na_as_correct.xlsx`
+- `data/LungDiag_itt_panelB_na_as_correct.xlsx`
 - `data/control_itt_panelB_na_as_correct.xlsx`
 
 Output file:
@@ -81,7 +81,7 @@ Output file:
 - All assigned-but-unanswered items coded as incorrect in both arms
 
 Derived input files:
-- `data/ai_itt_panelC_na_as_incorrect.xlsx`
+- `data/LungDiag_itt_panelC_na_as_incorrect.xlsx`
 - `data/control_itt_panelC_na_as_incorrect.xlsx`
 
 Output file:
