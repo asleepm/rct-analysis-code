@@ -239,8 +239,8 @@ generate_baseline_table <- function(data) {
         
         if (nrow(median_row) > 0) {
           median_row$`Category/Statistic` <- "Median (IQR)"
-          median_row$`AI Group` <- gsub("\\[", "", gsub("\\]", "", gsub(", ", " to ", median_row$`AI Group`)))
-          median_row$`Control Group` <- gsub("\\[", "", gsub("\\]", "", gsub(", ", " to ", median_row$`Control Group`)))
+          median_row$`AI Group` <- gsub("\\[", "(", gsub("\\]", ")", gsub(", ", " to ", median_row$`AI Group`)))
+          median_row$`Control Group` <- gsub("\\[", "(", gsub("\\]", ")", gsub(", ", " to ", median_row$`Control Group`)))
           median_row$SMD <- ""
           final_df <- rbind(final_df, median_row)
         }
