@@ -96,7 +96,6 @@ p <- ggplot(plot_df, aes(x = Type, y = Accuracy, fill = Group)) +
     limits = c(0, 1)
   ) +
   labs(
-    title = "Accuracy (Wilson 95% CI) by Question Type",
     x = "Question Type",
     y = "Accuracy (%)",
     caption = "Bars show crude pooled item-level accuracy proportions; error bars indicate Wilson 95% confidence intervals."
@@ -105,7 +104,6 @@ p <- ggplot(plot_df, aes(x = Type, y = Accuracy, fill = Group)) +
   theme(
     axis.text = element_text(size = 12),
     axis.title = element_text(size = 14),
-    plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
     plot.caption = element_text(size = 10, hjust = 0),
     legend.position = "top",
     legend.title = element_blank(),

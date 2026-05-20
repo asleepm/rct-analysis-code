@@ -292,10 +292,8 @@ forestplot(
   graph.pos = 5, # Plot will be placed between CI and P value columns
   txt_gp    = fpTxtGp(
     label = gpar(fontfamily = "Times New Roman", fontsize = 9),
-    xlab  = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 10),
-    title = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 12)
+    xlab  = gpar(fontfamily = "Times New Roman", fontface = "bold", fontsize = 10)
   ),
-  title     = "Subgroup Analysis: LungDiag vs Control",
   colgap    = unit(8, "mm"),
   newpage   = FALSE
 )
