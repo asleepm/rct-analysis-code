@@ -285,6 +285,46 @@ generate_baseline_table <- function(data) {
 
 baseline_table <- generate_baseline_table(combined_data)
 
+# ----------- Force-add Sex rows to Table 1 ------------
+
+sex_tab <- combined_data %>%
+  count(group, Sex, name = "n") %>%
+  group_by(group) %>%
+  mutate(value = sprintf("%d (%.1f)", n, 100 * n / sum(n))) %>%
+  ungroup() %>%
+  select(group, Sex, value) %>%
+  tidyr::pivot_wider(names_from = group, values_from = value)
+
+sex_smd <- as.numeric(
+  ExtractSmd(
+    CreateTableOne(
+      vars = "Sex",
+      strata = "group",
+      data = combined_data,
+      factorVars = "Sex",
+      test = FALSE,
+      smd = TRUE
+    )
+  )[1]
+)
+
+sex_rows <- sex_tab %>%
+  mutate(Sex = factor(Sex, levels = c("Male", "Female"))) %>%
+  arrange(Sex) %>%
+  transmute(
+    Variable = "Sex",
+    `Category/Statistic` = as.character(Sex),
+    `AI Group` = `AI Group`,
+    `Control Group` = `Control Group`,
+    SMD = ""
+  )
+
+sex_rows$SMD[1] <- sprintf("%.3f", sex_smd)
+
+baseline_table <- baseline_table %>%
+  filter(Variable != "Sex") %>%
+  bind_rows(sex_rows, .) 
+
 # ----------- Step 3: Export to Word ------------
 ft <- flextable(baseline_table) %>%
   set_header_labels(
@@ -306,7 +346,7 @@ ft <- flextable(baseline_table) %>%
   merge_v(j = "Variable") %>%
   add_header_lines("Table 1. Baseline characteristics of participants") %>%
   add_footer_lines(
-    "Note: SMD = standardized mean difference; categorical variables are shown as counts (percentage); continuous variables are shown as mean ± SD and median (IQR)."
+    "Note: SMD = standardized mean difference; RMB, renminbi (Chinese yuan); categorical variables are shown as counts (percentage); continuous variables are shown as mean ± SD and median (IQR)."
   ) %>%
   bg(
     i = which(baseline_table$`Category/Statistic` %in% c("Mean ± SD", "Median (IQR)")),
