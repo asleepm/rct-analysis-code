@@ -81,30 +81,49 @@ p <- ggplot(plot_df, aes(x = Type, y = Accuracy, fill = Group)) +
     colour = "black"
   ) +
   geom_text(
-    aes(label = sprintf("%.1f%%", Accuracy * 100)),
+    aes(
+      label = paste0(
+        sprintf("%.1f%%", Accuracy * 100),
+        "\n(",
+        n_correct,
+        "/",
+        n_total,
+        ")"
+      )
+    ),
     position = position_dodge(0.7),
-    vjust = -0.6,
-    size = 5,
-    fontface = "bold"
+    vjust = -0.8,
+    size = 3.5
   ) +
   scale_fill_manual(
-    breaks = c("LungDiag", "Control"),
-    values = c("LungDiag" = "#1f77b4", "Control" = "darkorange")
+    values = c(
+      "LungDiag"="#1f77b4",
+      "Control"="darkorange"
+    )
   ) +
   scale_y_continuous(
     labels = scales::percent_format(accuracy = 1),
-    limits = c(0, 1)
+    limits = c(0, 1.0)
   ) +
   labs(
     x = "Question Type",
     y = "Accuracy (%)",
-    caption = "Bars show crude pooled item-level accuracy proportions; error bars indicate Wilson 95% confidence intervals."
+    caption = paste(
+      "Bars show crude pooled item-level accuracy proportions.",
+      "Error bars indicate Wilson 95% confidence intervals.",
+      "Numerators and denominators are shown above bars.",
+      sep = "\n"
+    )
   ) +
   theme_minimal(base_family = "Times") +
   theme(
     axis.text = element_text(size = 12),
     axis.title = element_text(size = 14),
-    plot.caption = element_text(size = 10, hjust = 0),
+    plot.caption = element_text(
+      size = 9,
+      hjust = 0,
+      lineheight = 1.1
+    ),
     legend.position = "top",
     legend.title = element_blank(),
     panel.grid.major = element_line(colour = "grey90", linewidth = 0.5)
@@ -117,7 +136,7 @@ ggsave(
   "Figure3.pdf",
   plot = p,
   width = 8,
-  height = 6,
+  height = 6.5,
   units = "in",
   device = cairo_pdf
 )
