@@ -9,7 +9,8 @@ library(dplyr)
 library(binom)
 library(ggplot2)
 library(Cairo)
-
+font_family <- "Arial"
+pt_to_geom <- function(pt) pt / 2.845276
 # ==============================
 # 1. Read source datasets
 # ==============================
@@ -93,7 +94,7 @@ p <- ggplot(plot_df, aes(x = Type, y = Accuracy, fill = Group)) +
     ),
     position = position_dodge(0.7),
     vjust = -0.8,
-    size = 3.5
+    size = pt_to_geom(6)
   ) +
   scale_fill_manual(
     values = c(
@@ -115,17 +116,19 @@ p <- ggplot(plot_df, aes(x = Type, y = Accuracy, fill = Group)) +
       sep = "\n"
     )
   ) +
-  theme_minimal(base_family = "Times") +
+  theme_minimal(base_family = font_family, base_size = 6) +
   theme(
-    axis.text = element_text(size = 12),
-    axis.title = element_text(size = 14),
+    text = element_text(family = font_family),
+    axis.text = element_text(size = 6),
+    axis.title = element_text(size = 7),
     plot.caption = element_text(
-      size = 9,
+      size = 5.5,
       hjust = 0,
       lineheight = 1.1
     ),
     legend.position = "top",
     legend.title = element_blank(),
+    legend.text = element_text(size = 6),
     panel.grid.major = element_line(colour = "grey90", linewidth = 0.5)
   )
 
@@ -138,5 +141,6 @@ ggsave(
   width = 8,
   height = 6.5,
   units = "in",
-  device = cairo_pdf
+  device = cairo_pdf,
+  family = font_family
 )

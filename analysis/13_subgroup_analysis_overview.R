@@ -506,33 +506,29 @@ forestplot(
   align = c("l", "c", "c", "c", "c"),
   
   txt_gp = fpTxtGp(
-    label   = gpar(
+    label = gpar(
       fontfamily = font_family,
-      fontsize   = 9.5
+      fontsize   = 6.0
     ),
     summary = gpar(
       fontfamily = font_family,
       fontface   = "bold",
-      fontsize   = 9.5
+      fontsize   = 5.8
     ),
-    
-    # Control the font size of x-axis tick labels.
     ticks = gpar(
       fontfamily = font_family,
-      fontsize   = 15.0
+      fontsize   = 9.0
     ),
-    
-    # Control the font size of the x-axis title while limiting extra bottom whitespace.
     xlab = gpar(
       fontfamily = font_family,
-      fontsize   = 10.5
+      fontsize   = 8.0
     )
   ),
   
   xlab = "Absolute difference, LungDiag - Control, percentage points",
   
   colgap     = unit(6.0, "mm"),
-  lineheight = unit(0.62, "cm"),
+  lineheight = unit(0.45, "cm"),
   hrzl_lines = hrzl,
   
   mar = unit(c(0, 0, 0, 0), "mm"),
@@ -563,7 +559,7 @@ grid.text(
   just = c("left", "bottom"),
   gp = gpar(
     fontfamily = font_family,
-    fontsize   = 8.0,
+    fontsize   = 5.5,
     col        = "#333333"
   )
 )
